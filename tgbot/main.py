@@ -9,6 +9,18 @@ import pytz
 
 app = Flask(__name__)
 
+# --- CORS ---
+@app.after_request
+def add_cors(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
+@app.route("/webhook", methods=["OPTIONS"])
+def webhook_options():
+    return '', 200
+
 # --- НАСТРОЙКИ ---
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID", "-5288639479")
